@@ -8,8 +8,8 @@ struct song_node* song_create(const char* artist, const char* title)
 {
     struct song_node* song = malloc(sizeof(struct song_node));
 
-    strncmp(song->artist, artist, MAX_ARTIST_SIZE);
-    strncmp(song->title, title, MAX_TITLE_SIZE);
+    strncpy(song->artist, artist, MAX_ARTIST_SIZE);
+    strncpy(song->title, title, MAX_TITLE_SIZE);
 
     song->next_song = NULL;
 
@@ -61,13 +61,23 @@ struct song_node* song_insert_sorted(struct song_node* front, struct song_node* 
     return front;
 }
 
-struct song_node* song_print(struct song_node* songs)
+void song_print(struct song_node* songs)
 {
-    printf("Songs {\n");
-    
+    printf("%s - %s\n", songs->artist, songs->title);
 }
 
-struct song_node* song_free_all(struct song_node* songs)
+void song_print_list(struct song_node* songs)
+{
+    printf("Songs [\n");
+    for(; songs; songs = songs->next_song)
+    {
+        printf("\t");
+        song_print(songs);
+    }
+    printf("]\n");
+}
+
+void song_free_all(struct song_node* songs)
 {
     if (songs)
     {
