@@ -73,7 +73,7 @@ struct song_node* song_insert_sorted(struct song_node* front, struct song_node* 
 
 void song_print(struct song_node* songs)
 {
-    printf("(%s - %s)", songs->artist, songs->title);
+    printf("%s - %s", songs->artist, songs->title);
 }
 
 void song_print_list(struct song_node* songs)

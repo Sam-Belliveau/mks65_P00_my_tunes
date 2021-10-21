@@ -103,17 +103,26 @@ void library_print(struct my_library* library)
 {
     int i;
     struct my_category* category;
+    struct song_node* song;
 
-    printf("Library {\n");
+    printf("Library {");
     for(i = 0; i < CATEGORY_LENGTH; ++i)
     {
         category = &library->category[i];
 
         if (!category_is_empty(category))
         {
-            printf("\t");
-            category_print(category);
-            printf("\n");
+            printf("\n\tCategory %c:\n", category->letter);
+            song = category->list;
+
+            while(song)
+            {
+                printf("\t\t");
+                song_print(song);
+                printf("\n");
+
+                song = song->next_song;
+            }
         }
     }
     printf("}\n");
