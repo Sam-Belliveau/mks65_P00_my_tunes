@@ -147,7 +147,7 @@ void library_print(struct my_library* library)
     printf("}\n");
 }
 
-struct library* library_clear(struct my_library* library)
+struct my_library* library_clear(struct my_library* library)
 {
     int i = 0;
 
@@ -159,7 +159,7 @@ struct library* library_clear(struct my_library* library)
     return library;
 }
 
-struct library* library_free(struct my_library* library)
+struct my_library* library_free(struct my_library* library)
 {
     if(library)
     {

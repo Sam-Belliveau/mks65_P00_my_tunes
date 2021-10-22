@@ -40,7 +40,7 @@ void library_remove(struct my_library*, const char*, const char*);
 
 void library_print(struct my_library*);
 
-struct library* library_clear(struct my_library*);
-struct library* library_free(struct my_library*);
+struct my_library* library_clear(struct my_library*);
+struct my_library* library_free(struct my_library*);
 
 #endif
