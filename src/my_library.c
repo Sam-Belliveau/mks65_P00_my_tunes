@@ -52,10 +52,21 @@ int category_add(struct my_category* category, struct song_node* song)
     return 0;
 }
 
+void category_remove(struct my_category* category, const char* artist, const char* title)
+{
+    category->list = song_remove(category->list, artist, title);
+}
+
 void category_print(struct my_category* category)
 {
     printf("%c: ", category->letter);
     song_print_list(category->list);
+}
+
+struct my_category* category_clear(struct my_category* category)
+{
+    category->list = song_free_all(category->list);
+    return category;
 }
 
 struct my_library* library_create()
@@ -87,16 +98,24 @@ struct my_category* library_get_category(struct my_library* library, struct song
     return NULL;
 }
 
-struct my_category* library_add(struct my_library* library, struct song_node* song)
+int library_add(struct my_library* library, struct song_node* song)
 {
     struct my_category* category = library_get_category(library, song);
 
     if (category)
-    {
-        category_add(category, song);
-    }
+    { return category_add(category, song); }
 
-    return category;
+    return 0;
+}
+
+void library_remove(struct my_library* library, const char* artist, const char* title)
+{
+    int i;
+
+    for(i = 0; i < CATEGORY_LENGTH; ++i)
+    {
+        category_remove(&library->category[i], artist, title);
+    }
 }
 
 void library_print(struct my_library* library)
@@ -126,4 +145,27 @@ void library_print(struct my_library* library)
         }
     }
     printf("}\n");
+}
+
+struct library* library_clear(struct my_library* library)
+{
+    int i = 0;
+
+    for(i = 0; i < CATEGORY_LENGTH; ++i)
+    {
+        category_clear(&library->category[i]);
+    }
+
+    return library;
+}
+
+struct library* library_free(struct my_library* library)
+{
+    if(library)
+    {
+        library_clear(library);
+        free(library);
+    }
+
+    return NULL;
 }

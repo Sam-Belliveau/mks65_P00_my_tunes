@@ -16,6 +16,27 @@ struct song_node* song_create(const char* artist, const char* title)
     return song;
 }
 
+int song_eq_str(struct song_node* song, const char* artist, const char* title)
+{
+    int artist_cmp;
+    int title_cmp;
+    
+    if(!song) return 0;
+
+    if(artist)
+    {
+        artist_cmp = strcmp(song->artist, artist);
+        if(artist_cmp) return 0;
+    }
+
+    if(title)
+    {
+        title_cmp = strcmp(song->title, title);
+        if(title_cmp) return 0;
+    }
+
+    return 1;
+}
 
 int song_cmp(struct song_node* a, struct song_node* b)
 {
@@ -71,6 +92,38 @@ struct song_node* song_insert_sorted(struct song_node* front, struct song_node* 
     }
 }
 
+struct song_node* song_remove(struct song_node* list, const char* artist, const char* title)
+{
+    struct song_node* next;
+    struct song_node* song;
+
+    while(list && song_eq_str(list, artist, title))
+    {
+        next = list->next_song;
+        free(list);
+        list = next;
+    }
+
+    if(list)
+    {
+        song = list;
+
+        while(next)
+        {
+            next = song->next_song;
+            if(song_eq_str(next, artist, title))
+            {
+                song->next_song = next->next_song;
+                free(next);
+            }
+
+            song = song->next_song;
+        }
+    }
+
+    return list;
+}
+
 void song_print(struct song_node* songs)
 {
     printf("%s - %s", songs->artist, songs->title);
@@ -95,11 +148,13 @@ void song_print_list(struct song_node* songs)
     else printf("{EMPTY}");
 }
 
-void song_free_all(struct song_node* songs)
+struct song_node* song_free_all(struct song_node* songs)
 {
     if (songs)
     {
-        song_free_all(songs);
+        song_free_all(songs->next_song);
         free(songs);
     }
+
+    return NULL;
 }

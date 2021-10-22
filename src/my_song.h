@@ -14,14 +14,17 @@ struct song_node
 
 struct song_node* song_create(const char*, const char*);
 
+int song_eq_str(struct song_node*, const char*, const char*);
 int song_cmp(struct song_node*, struct song_node*);
 
 struct song_node* song_insert_front(struct song_node*, struct song_node*);
 struct song_node* song_insert_sorted(struct song_node*, struct song_node*);
 
+struct song_node* song_remove(struct song_node*, const char*, const char*);
+
 void song_print(struct song_node*);
 void song_print_list(struct song_node*);
 
-void song_free_all(struct song_node*);
+struct song_node* song_free_all(struct song_node*);
 
 #endif
