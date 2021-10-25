@@ -62,6 +62,27 @@ int main(void)
         printf("\n");
     }
 
+    print_section("Random T Section");
+
+    printf("Printing 10 Random Songs from T Section:\n");
+    for(i = 0; i < 10; ++i)
+    {
+        printf("\t%d) ", i);
+        song_print(category_get_rand(library_get_category(library, 'T')));
+        printf("\n");
+    }
+
+
+    print_section("Random Ski Mask The Slump God Songs");
+
+    printf("Printing 10 Random Songs with Artist \"Ski Mask The Slump God\":\n");
+    for(i = 0; i < 10; ++i)
+    {
+        printf("\t%d) ", i);
+        song_print(library_get_song_rand_match(library, "Ski Mask The Slump God", NULL));
+        printf("\n");
+    }
+
     print_section("We are done here");
 
     printf("Clearing Library...\n\n");

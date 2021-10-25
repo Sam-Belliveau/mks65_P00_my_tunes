@@ -13,7 +13,7 @@ struct my_category category_create(const char);
 
 int category_is_empty(struct my_category*);
 
-int category_add(struct my_category*, struct song_node*);
+void category_add(struct my_category*, struct song_node*);
 
 struct song_node* category_get_song(struct my_category*, const char*, const char*);
 struct song_node* category_get_rand(struct my_category*);
@@ -43,6 +43,7 @@ int library_add(struct my_library*, struct song_node*);
 
 struct song_node* library_get_song(struct my_library*, const char*, const char*);
 struct song_node* library_get_song_rand(struct my_library*);
+struct song_node* library_get_song_rand_match(struct my_library*, const char*, const char*);
 
 void library_remove(struct my_library*, const char*, const char*);
 

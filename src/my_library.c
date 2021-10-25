@@ -19,7 +19,7 @@ int category_is_empty(struct my_category* category)
     return category->list == NULL;
 }
 
-int category_add(struct my_category* category, struct song_node* song)
+void category_add(struct my_category* category, struct song_node* song)
 {
     category->list = song_insert_sorted(category->list, song);
 }
@@ -120,7 +120,10 @@ int library_add(struct my_library* library, struct song_node* song)
     struct my_category* category = library_get_category_song(library, song);
 
     if (category)
-    { return category_add(category, song); }
+    { 
+        category_add(category, song); 
+        return 1; 
+    }
 
     return 0;
 }
@@ -133,6 +136,20 @@ struct song_node* library_get_song(struct my_library* library, const char* artis
 struct song_node* library_get_song_rand(struct my_library* library)
 {
     return category_get_rand(library_get_category_rand(library));
+}
+
+struct song_node* library_get_song_rand_match(struct my_library* library, const char* artist, const char* title)
+{
+    struct song_node* song = NULL;
+
+    if(library_get_song(library, artist, title))
+    {   
+        do {
+            song = library_get_song_rand(library);
+        } while(!song_match(song, artist, title));
+    } 
+    
+    return song;
 }
 
 void library_remove(struct my_library* library, const char* artist, const char* title)
