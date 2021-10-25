@@ -41,6 +41,10 @@ int main(void)
 
     printf("\nRemoving Songs With Title \"Alright\"...\n");
     library_remove(library, NULL, "Alright");
+    printf("Removing Songs With Title \"DNA.\"...\n");
+    library_remove(library, NULL, "DNA.");
+    printf("Removing Songs With Title \"King Kunta\"...\n");
+    library_remove(library, NULL, "King Kunta");
 
     printf("\nPrinting Kendrick Lamar:\n");
     library_print_match(library, "Kendrick Lamar", NULL);

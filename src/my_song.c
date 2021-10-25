@@ -100,31 +100,26 @@ struct song_node* song_get(struct song_node* list, const char* artist, const cha
 
 struct song_node* song_remove(struct song_node* list, const char* artist, const char* title)
 {
-    struct song_node* next;
     struct song_node* song;
+    struct song_node* next;
 
     while(list && song_match(list, artist, title))
     {
-        next = list->next_song;
-        free(list);
-        list = next;
+        song = list;
+        list = list->next_song;
+        free(song);
     }
 
-    if(list)
+    song = list;
+
+    while(song && (next = song->next_song))
     {
-        song = list;
-
-        while(next)
+        if(song_match(next, artist, title))
         {
-            next = song->next_song;
-            if(song_match(next, artist, title))
-            {
-                song->next_song = next->next_song;
-                free(next);
-            }
-
-            song = song->next_song;
-        }
+            song->next_song = next->next_song;
+            free(next);
+        } else 
+        { song = song->next_song; }
     }
 
     return list;

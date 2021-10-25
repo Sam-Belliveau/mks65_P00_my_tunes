@@ -137,7 +137,6 @@ const struct song_literal MUSIC_LIBRARY[] =
     {"Ski Mask The Slump God", "DAPPER DAN"},
     {"Ski Mask The Slump God", "COOLEST MONKEY IN THE JUNGLE"},
     {"Juice WRLD", "Rich And Blind"},
-    {"Joji", "SLOW DANCING IN THE DARK"},
     {"The Neighbourhood", "Prey"},
     {"The Neighbourhood", "Stargazing"},
     {"The Neighbourhood", "Afraid"},
