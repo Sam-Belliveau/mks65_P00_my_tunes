@@ -14,28 +14,6 @@ struct my_category category_create(const char letter)
     return category;
 }
 
-int category_fits(struct my_category* category, struct song_node* song)
-{
-    return song && category && category->letter == toupper(song->artist[0]);
-}
-
-int category_has_song(struct my_category* category, struct song_node* song)
-{
-    struct song_node* song_list;
-
-    if(category_fits(category, song))
-    {
-        song_list = category->list;
-
-        while(song_list && song_cmp(song_list, song))
-        { song_list = song_list->next_song; }
-
-        return song_list != NULL;
-    } 
-
-    return 0;
-}
-
 int category_is_empty(struct my_category* category)
 {
     return category->list == NULL;
@@ -43,13 +21,12 @@ int category_is_empty(struct my_category* category)
 
 int category_add(struct my_category* category, struct song_node* song)
 {
-    if(!category_has_song(category, song))
-    {
-        category->list = song_insert_sorted(category->list, song);
-        return 1;
-    } 
-    
-    return 0;
+    category->list = song_insert_sorted(category->list, song);
+}
+
+struct song_node* category_get_song(struct my_category* category, const char* artist, const char* title)
+{
+    return category ? song_get(category->list, artist, title) : NULL;
 }
 
 void category_remove(struct my_category* category, const char* artist, const char* title)
@@ -85,27 +62,37 @@ struct my_library* library_create()
     return library;
 }
 
-struct my_category* library_get_category(struct my_library* library, struct song_node* song)
+struct my_category* library_get_category(struct my_library* library, const char letter)
 {
     int i;
 
     for(i = 0; i < CATEGORY_LENGTH; ++i)
     {
-        if (category_fits(&library->category[i], song))
+        if (toupper(library->category[i].letter) == toupper(letter))
         { return &library->category[i]; }
     }
 
     return NULL;
 }
 
+struct my_category* library_get_category_song(struct my_library* library, struct song_node* song)
+{
+    return library_get_category(library, song->artist[0]);
+}
+
 int library_add(struct my_library* library, struct song_node* song)
 {
-    struct my_category* category = library_get_category(library, song);
+    struct my_category* category = library_get_category_song(library, song);
 
     if (category)
     { return category_add(category, song); }
 
     return 0;
+}
+
+struct song_node* library_get_song(struct my_library* library, const char* artist, const char* title)
+{
+    return category_get_song(library_get_category(library, artist[0]), artist, title);
 }
 
 void library_remove(struct my_library* library, const char* artist, const char* title)
@@ -145,6 +132,59 @@ void library_print(struct my_library* library)
         }
     }
     printf("}\n");
+}
+
+void library_print_short(struct my_library* library)
+{
+    int i;
+    struct my_category* category;
+
+    printf("Library {");
+    for(i = 0; i < CATEGORY_LENGTH; ++i)
+    {
+        category = &library->category[i];
+
+        if (!category_is_empty(category))
+        {
+            printf("\n\tCategory %c:\t", category->letter);
+            category_print(category);
+        }
+    }
+    printf("\n}\n");
+}
+
+void library_print_match(struct my_library* library, const char* artist, const char* title)
+{
+    int i, first;
+    struct my_category* category;
+    struct song_node* song;
+
+    first = 1;
+
+    printf("Library {[");
+    for(i = 0; i < CATEGORY_LENGTH; ++i)
+    {
+        category = &library->category[i];
+
+        if (!category_is_empty(category))
+        {
+            song = category->list;
+
+            while(song)
+            {
+                if(song_match(song, artist, title))
+                {
+                    if(!first) printf("] | [");
+
+                    song_print(song);
+                    first = 0;
+                }
+
+                song = song->next_song;
+            }
+        }
+    }
+    printf("]}\n");
 }
 
 struct my_library* library_clear(struct my_library* library)

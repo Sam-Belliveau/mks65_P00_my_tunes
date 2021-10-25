@@ -1,8 +1,8 @@
 #ifndef SAM_BELLIVEAU_MY_SONG_HEADER
 #define SAM_BELLIVEAU_MY_SONG_HEADER 1
 
-#define MAX_ARTIST_SIZE 64
-#define MAX_TITLE_SIZE 64
+#define MAX_ARTIST_SIZE 256
+#define MAX_TITLE_SIZE 256
 
 struct song_node
 {
@@ -14,11 +14,13 @@ struct song_node
 
 struct song_node* song_create(const char*, const char*);
 
-int song_eq_str(struct song_node*, const char*, const char*);
+int song_match(struct song_node*, const char*, const char*);
 int song_cmp(struct song_node*, struct song_node*);
 
 struct song_node* song_insert_front(struct song_node*, struct song_node*);
 struct song_node* song_insert_sorted(struct song_node*, struct song_node*);
+
+struct song_node* song_get(struct song_node*, const char*, const char*);
 
 struct song_node* song_remove(struct song_node*, const char*, const char*);
 

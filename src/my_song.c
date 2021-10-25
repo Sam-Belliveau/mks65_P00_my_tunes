@@ -16,7 +16,7 @@ struct song_node* song_create(const char* artist, const char* title)
     return song;
 }
 
-int song_eq_str(struct song_node* song, const char* artist, const char* title)
+int song_match(struct song_node* song, const char* artist, const char* title)
 {
     int artist_cmp;
     int title_cmp;
@@ -92,12 +92,18 @@ struct song_node* song_insert_sorted(struct song_node* front, struct song_node* 
     }
 }
 
+struct song_node* song_get(struct song_node* list, const char* artist, const char* title)
+{
+    while(list && !song_match(list, artist, title)) list = list->next_song;
+    return list;
+}
+
 struct song_node* song_remove(struct song_node* list, const char* artist, const char* title)
 {
     struct song_node* next;
     struct song_node* song;
 
-    while(list && song_eq_str(list, artist, title))
+    while(list && song_match(list, artist, title))
     {
         next = list->next_song;
         free(list);
@@ -111,7 +117,7 @@ struct song_node* song_remove(struct song_node* list, const char* artist, const 
         while(next)
         {
             next = song->next_song;
-            if(song_eq_str(next, artist, title))
+            if(song_match(next, artist, title))
             {
                 song->next_song = next->next_song;
                 free(next);
@@ -124,25 +130,26 @@ struct song_node* song_remove(struct song_node* list, const char* artist, const 
     return list;
 }
 
-void song_print(struct song_node* songs)
+void song_print(struct song_node* song)
 {
-    printf("%s - %s", songs->artist, songs->title);
+    if(song) printf("%s - %s", song->artist, song->title);
+    else printf("[NULL SONG]");
 }
 
 void song_print_list(struct song_node* songs)
 {
     if(songs)
     {
-        printf("{");
+        printf("{[");
         song_print(songs);
         songs = songs->next_song;
 
         for(; songs; songs = songs->next_song)
         {
-            printf(", ");
+            printf("] | [");
             song_print(songs);
         }
-        printf("}");
+        printf("]}");
     }
 
     else printf("{EMPTY}");
