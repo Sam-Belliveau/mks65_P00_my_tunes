@@ -52,6 +52,11 @@ int category_add(struct my_category* category, struct song_node* song)
     return 0;
 }
 
+struct song_node* category_get_rand(struct my_category* category)
+{
+    return song_get_rand(category->list);
+}
+
 void category_remove(struct my_category* category, const char* artist, const char* title)
 {
     category->list = song_remove(category->list, artist, title);
@@ -96,6 +101,12 @@ struct my_category* library_get_category(struct my_library* library, struct song
     }
 
     return NULL;
+}
+
+struct my_category* library_get_rand_category(struct my_library* library)
+{
+    int i = rand() % CATEGORY_LENGTH;
+    return &library->category[i];
 }
 
 int library_add(struct my_library* library, struct song_node* song)

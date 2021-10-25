@@ -148,6 +148,24 @@ void song_print_list(struct song_node* songs)
     else printf("{EMPTY}");
 }
 
+struct song_node* song_get_index(struct song_node* list, int n)
+{
+    if(list && n) return song_get_index(list->next_song, --n);
+    return list;
+}
+
+struct song_node* song_get_rand(struct song_node* list)
+{
+    int len = song_list_length(list);
+    return song_get_index(list, rand() % len);
+}
+
+int song_list_length(struct song_node* list)
+{
+    if(list) return 1 + song_list_length(list->next_song);
+    return 0;
+} 
+
 struct song_node* song_free_all(struct song_node* songs)
 {
     if (songs)

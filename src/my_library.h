@@ -17,6 +17,8 @@ int category_is_empty(struct my_category*);
 
 int category_add(struct my_category*, struct song_node*);
 
+struct song_node* category_get_rand(struct my_category*);
+
 void category_remove(struct my_category*, const char*, const char*);
 
 void category_print(struct my_category*);
@@ -33,6 +35,7 @@ struct my_library
 struct my_library* library_create();
 
 struct my_category* library_get_category(struct my_library*, struct song_node*);
+struct my_category* library_get_rand_category(struct my_library*);
 
 int library_add(struct my_library*, struct song_node*);
 

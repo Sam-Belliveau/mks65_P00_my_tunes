@@ -25,6 +25,12 @@ struct song_node* song_remove(struct song_node*, const char*, const char*);
 void song_print(struct song_node*);
 void song_print_list(struct song_node*);
 
+struct song_node* song_get_index(struct song_node*, int);
+
+struct song_node* song_get_rand(struct song_node*);
+
+int song_list_length(struct song_node*);
+
 struct song_node* song_free_all(struct song_node*);
 
 #endif
