@@ -1,9 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "my_library.h"
 #include "song_library.h"
 
-#define print_section(section) do{printf("\n\n\t==== " section " ====\n");}while(0)
+#define print_section(section) do{printf("\n\n================ " section " ================\n");}while(0)
 
 int main(void)
 {
@@ -34,9 +36,9 @@ int main(void)
     printf("\nPrint Out J Category:\n");
     category_print(library_get_category(library, 'J'));
 
-    print_section("Kendrick Lamar is kinda cool...");
+    print_section("Kendrick Lamar");
 
-    printf("\nPrinting Kendrick Lamar:\n");
+    printf("\nPrinting Songs with Artist \"Kendrick Lamar\":\n");
     library_print_match(library, "Kendrick Lamar", NULL);
 
     printf("\nRemoving Songs With Title \"Alright\"...\n");
@@ -46,8 +48,19 @@ int main(void)
     printf("Removing Songs With Title \"King Kunta\"...\n");
     library_remove(library, NULL, "King Kunta");
 
-    printf("\nPrinting Kendrick Lamar:\n");
+    printf("\nPrinting Songs with Artist \"Kendrick Lamar\":\n");
     library_print_match(library, "Kendrick Lamar", NULL);
+
+    print_section("Random Songs");
+
+    srand(time(0));
+    printf("Printing 10 Random Songs:\n");
+    for(i = 0; i < 10; ++i)
+    {
+        printf("\t%d) ", i);
+        song_print(library_get_song_rand(library));
+        printf("\n");
+    }
 
     print_section("We are done here");
 

@@ -51,6 +51,17 @@ struct my_category* category_clear(struct my_category* category)
     return category;
 }
 
+int library_is_empty(struct my_library* library)
+{
+    int i;
+    int empty = 0;
+
+    for(i = 0; i < CATEGORY_LENGTH; ++i)
+    { empty |= category_is_empty(&library->category[i]); }
+
+    return empty;
+}
+
 struct my_library* library_create()
 {
     int i;
@@ -80,15 +91,28 @@ struct my_category* library_get_category(struct my_library* library, const char 
     return NULL;
 }
 
-struct my_category* library_get_category_rand(struct my_library* library)
-{
-    int i = rand() % CATEGORY_LENGTH;
-    return &library->category[i];
-}
-
 struct my_category* library_get_category_song(struct my_library* library, struct song_node* song)
 {
     return library_get_category(library, song->artist[0]);
+}
+
+struct my_category* library_get_category_rand(struct my_library* library)
+{
+    int i;
+    struct my_category* category;
+
+    if(library_is_empty(library))
+    { return NULL; }
+    else
+    {
+        do 
+        {
+            i = rand() % CATEGORY_LENGTH;
+            category = &library->category[i];
+        } while(category_is_empty(category));
+    }
+    
+    return category;
 }
 
 int library_add(struct my_library* library, struct song_node* song)
@@ -104,6 +128,11 @@ int library_add(struct my_library* library, struct song_node* song)
 struct song_node* library_get_song(struct my_library* library, const char* artist, const char* title)
 {
     return category_get_song(library_get_category(library, artist[0]), artist, title);
+}
+
+struct song_node* library_get_song_rand(struct my_library* library)
+{
+    return category_get_rand(library_get_category_rand(library));
 }
 
 void library_remove(struct my_library* library, const char* artist, const char* title)
@@ -172,7 +201,7 @@ void library_print_match(struct my_library* library, const char* artist, const c
 
     first = 1;
 
-    printf("Library {[");
+    printf("Library { (");
     for(i = 0; i < CATEGORY_LENGTH; ++i)
     {
         category = &library->category[i];
@@ -185,7 +214,7 @@ void library_print_match(struct my_library* library, const char* artist, const c
             {
                 if(song_match(song, artist, title))
                 {
-                    if(!first) printf("] | [");
+                    if(!first) printf(") | (");
 
                     song_print(song);
                     first = 0;
@@ -195,7 +224,7 @@ void library_print_match(struct my_library* library, const char* artist, const c
             }
         }
     }
-    printf("]}\n");
+    printf(") }\n");
 }
 
 struct my_library* library_clear(struct my_library* library)

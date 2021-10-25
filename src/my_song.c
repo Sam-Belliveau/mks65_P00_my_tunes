@@ -135,16 +135,16 @@ void song_print_list(struct song_node* songs)
 {
     if(songs)
     {
-        printf("{[");
+        printf("[ (");
         song_print(songs);
         songs = songs->next_song;
 
         for(; songs; songs = songs->next_song)
         {
-            printf("] | [");
+            printf(") | (");
             song_print(songs);
         }
-        printf("]}");
+        printf(") ]");
     }
 
     else printf("{EMPTY}");
@@ -152,7 +152,7 @@ void song_print_list(struct song_node* songs)
 
 struct song_node* song_get_index(struct song_node* list, int n)
 {
-    if(list && n) return song_get_index(list->next_song, --n);
+    if(list && n) return song_get_index(list->next_song, n - 1);
     return list;
 }
 

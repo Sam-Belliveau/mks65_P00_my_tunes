@@ -33,6 +33,8 @@ struct my_library
 
 struct my_library* library_create();
 
+int library_is_empty(struct my_library*);
+
 struct my_category* library_get_category(struct my_library*, const char);
 struct my_category* library_get_category_song(struct my_library*, struct song_node*);
 struct my_category* library_get_category_rand(struct my_library*);
@@ -40,6 +42,7 @@ struct my_category* library_get_category_rand(struct my_library*);
 int library_add(struct my_library*, struct song_node*);
 
 struct song_node* library_get_song(struct my_library*, const char*, const char*);
+struct song_node* library_get_song_rand(struct my_library*);
 
 void library_remove(struct my_library*, const char*, const char*);
 
