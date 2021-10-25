@@ -109,7 +109,7 @@ const struct song_literal MUSIC_LIBRARY[] =
     {"Ski Mask The Slump God", "Reborn To Rebel"},
     {"Ski Mask The Slump God", "The Human Centipede"},
     {"Ski Mask The Slump God", "Durgaflowz"},
-            {"Juice WRLD", "Hide (feat. Seezyn)"},
+    {"Juice WRLD", "Hide (feat. Seezyn)"},
     {"Beach House", "Space Song"},
     {"Tyler, The Creator", "WUSYANAME (feat. Youngboy Never Broke Again & Ty Dolla $ign)"},
     {"DJ Scheme", "How You Feel? (Freestyle) (feat. Lil Yachty & Ski Mask The Slump God)"},
@@ -137,7 +137,6 @@ const struct song_literal MUSIC_LIBRARY[] =
     {"Ski Mask The Slump God", "DAPPER DAN"},
     {"Ski Mask The Slump God", "COOLEST MONKEY IN THE JUNGLE"},
     {"Juice WRLD", "Rich And Blind"},
-    {"Joji", "SLOW DANCING IN THE DARK"},
     {"The Neighbourhood", "Prey"},
     {"The Neighbourhood", "Stargazing"},
     {"The Neighbourhood", "Afraid"},
@@ -155,7 +154,5 @@ const struct song_literal MUSIC_LIBRARY[] =
 };
 
 const int MUSIC_LIBRARY_SIZE = sizeof(MUSIC_LIBRARY)/sizeof(*MUSIC_LIBRARY);
-
-
 
 #endif
