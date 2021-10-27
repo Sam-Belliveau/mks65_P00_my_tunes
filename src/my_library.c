@@ -16,12 +16,12 @@ struct my_category category_create(const char letter)
 
 int category_is_empty(struct my_category* category)
 {
-    return category->list == NULL;
+    return category && category->list == NULL;
 }
 
 void category_add(struct my_category* category, struct song_node* song)
 {
-    category->list = song_insert_sorted(category->list, song);
+    if(category) category->list = song_insert_sorted(category->list, song);
 }
 
 struct song_node* category_get_song(struct my_category* category, const char* artist, const char* title)
@@ -31,12 +31,12 @@ struct song_node* category_get_song(struct my_category* category, const char* ar
 
 struct song_node* category_get_rand(struct my_category* category)
 {
-    return song_get_rand(category->list);
+    return category ? song_get_rand(category->list) : NULL;
 }
 
 void category_remove(struct my_category* category, const char* artist, const char* title)
 {
-    category->list = song_remove(category->list, artist, title);
+    if(category) category->list = song_remove(category->list, artist, title);
 }
 
 void category_print(struct my_category* category)
@@ -57,7 +57,7 @@ int library_is_empty(struct my_library* library)
     int empty = 0;
 
     for(i = 0; i < CATEGORY_LENGTH; ++i)
-    { empty |= category_is_empty(&library->category[i]); }
+    { empty &= category_is_empty(&library->category[i]); }
 
     return empty;
 }

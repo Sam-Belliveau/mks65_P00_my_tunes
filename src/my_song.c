@@ -159,7 +159,8 @@ struct song_node* song_get_index(struct song_node* list, int n)
 struct song_node* song_get_rand(struct song_node* list)
 {
     int len = song_list_length(list);
-    return song_get_index(list, rand() % len);
+    if(len) return song_get_index(list, rand() % len);
+    else return NULL;
 }
 
 int song_list_length(struct song_node* list)
